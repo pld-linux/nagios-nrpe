@@ -114,17 +114,17 @@ else
 fi
 
 %post
-/sbin/chkconfig --add %{name}
-if [ -f /var/lock/subsys/%{name} ]; then
-	/etc/rc.d/init.d/%{name} restart 1>&2
+/sbin/chkconfig --add nrpe
+if [ -f /var/lock/subsys/nrpe ]; then
+	/etc/rc.d/init.d/nrpe restart 1>&2
 fi
 
 %preun
 if [ "$1" = "0" ] ; then
-	if [ -f /var/lock/subsys/%{name} ]; then
-		/etc/rc.d/init.d/%{name} stop 1>&2
+	if [ -f /var/lock/subsys/nrpe ]; then
+		/etc/rc.d/init.d/nrpe stop 1>&2
 	fi
-	/sbin/chkconfig --del %{name}
+	/sbin/chkconfig --del nrpe
 fi
 
 %postun
@@ -136,7 +136,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
+%attr(754,root,root) /etc/rc.d/init.d/nrpe
 %attr(751,root,%{nsgrp}) %dir %{_sysconfdir}
 %attr(644,root,%{nsgrp}) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nrpe.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
