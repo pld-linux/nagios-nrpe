@@ -14,6 +14,7 @@ URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	rpmbuild(macros) >= 1.159
+BuildRequires:	openssl-tools
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/groupadd
