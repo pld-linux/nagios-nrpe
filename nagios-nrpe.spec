@@ -6,7 +6,8 @@ Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-Source1:	%{name}.init
+# Source0-md5:	70ef9502a3b7e49fa520dbceabfa04d0
+Source1:	nrpe.init
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -48,7 +49,7 @@ Wtyczka check_nrpe dla Nagiosa. Pozwala na zdalne uruchamianie
 wtyczek na innych komputerach za pomoc± demona nrpe.
 
 %prep
-%setup -q
+%setup -q -n nrpe-%{version}
 
 %build
 %{__aclocal}
@@ -75,7 +76,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir},%{_libdir}/nagios/plu
 	$RPM_BUILD_ROOT%{_localstatedir}
 
 install nrpe.cfg $RPM_BUILD_ROOT/etc/nagios/nrpe.cfg
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
 
@@ -84,20 +85,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 if [ -n "`getgid %{nsgrp}`" ]; then
-       if [ "`getgid %{nsgrp}`" != "72" ]; then
-               echo "Error: group %{nsgrp} doesn't have gid=72. Correct this before installing %{name}." 1>&2
-               exit 1
-       fi
+	if [ "`getgid %{nsgrp}`" != "72" ]; then
+		echo "Error: group %{nsgrp} doesn't have gid=72. Correct this before installing %{name}." 1>&2
+		exit 1
+	fi
 else
-       /usr/sbin/groupadd -g 72 -f %{nsgrp}
+	/usr/sbin/groupadd -g 72 -f %{nsgrp}
 fi
 if [ -n "`id -u %{nsusr} 2>/dev/null`" ]; then
-       if [ "`id -u %{nsusr}`" != "72" ]; then
-               echo "Error: user %{nsusr} doesn't have uid=72. Correct this before installing %{name}." 1>&2
-               exit 1
-       fi
+	if [ "`id -u %{nsusr}`" != "72" ]; then
+		echo "Error: user %{nsusr} doesn't have uid=72. Correct this before installing %{name}." 1>&2
+		exit 1
+	fi
 else
-       /usr/sbin/useradd -u 72 -d %{_libdir}/%{name} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
+	/usr/sbin/useradd -u 72 -d %{_libdir}/%{name} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
 fi
 
 %post
@@ -116,8 +117,8 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-       /usr/sbin/userdel %{nsusr}
-       /usr/sbin/groupdel %{nsgrp}
+	/usr/sbin/userdel %{nsusr}
+	/usr/sbin/groupdel %{nsgrp}
 fi
 
 %files
