@@ -3,15 +3,14 @@
 #  Created 2000-01-03 by jaclu@grm.se
 #  Rewritten for PLD 2004-06-02 by patrys@pld-linux.org
 #
-# nrpe          This shell script takes care of starting and stopping
-#               nrpe.
+# nrpe		This shell script takes care of starting and stopping
+#		nrpe.
 #
-# chkconfig: 2345 80 30
-# description: nrpe is a daemon for a remote nagios server, \
-#              running nagios plugins on this host.
-# processname: nrpe
-# config: /usr/local/nagios/etc/nrpe.cfg
-
+# chkconfig:	2345 80 30
+# description:	nrpe is a daemon for a remote nagios server, \
+#		running nagios plugins on this host.
+# processname:	nrpe
+# config:	/usr/local/nagios/etc/nrpe.cfg
 
 . /etc/rc.d/init.d/functions
 
@@ -47,16 +46,17 @@ case "$1" in
 		msg_not_running "nrpe"
 	fi
 	;;
-  restart)
+  restart|force-reload)
 	$0 stop
 	$0 start
 	;;
   status)
 	status nrpe
+	exit $?
 	;;
   *)
-	echo "Usage: nrpe {start|stop|restart|status}"
-	exit 1
+	echo "Usage: nrpe {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit 0
