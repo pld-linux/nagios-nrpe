@@ -1,8 +1,8 @@
 #
 # Conditional build:
 #
-Summary:	Nagios remote monitoring service/plugin
-Summary(pl):	Demon i wtyczka zdalnego monitorowania Nagios
+Summary:	Nagios remote plugin execution service/plugin
+Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nrpe
 Version:	2.0
 Release:	1
@@ -30,32 +30,12 @@ Requires:	nagios-plugins
 %define		nsport		5666
 
 %description
-Nagios is a program that will monitor hosts and services on your
-network. It has the ability to email or page you when a problem arises
-and when a problem is resolved. Nagios is written in C and is designed
-to run under Linux (and some other *NIX variants) as a background
-process, intermittently running checks on various services that you
-specify.
-
-The actual service checks are performed by separate "plugin" programs
-which return the status of the checks to Nagios. The plugins are
-available in nagios-plugins packages.
-
-Nagios is successor to NetSaint.
+Nagios nrpe allows you to remotely execute plugins on other hosts
+and report the plugin output back to the monitoring host.
 
 %description -l pl
-Nagios to program, który monitoruje serwery oraz us³ugi w naszej
-sieci. Posiada on mo¿liwo¶æ wysy³ania informacji o wyst±pieniu oraz
-rozwi±zaniu problemu. Nagios zosta³ napisany w C oraz jest
-zaprojektowany do pracy pod Linuksem (i niektórymi innymi uniksami)
-jako proces pracuj±cy w tle i bezustannie wykonuj±cy pewne operacje
-sprawdzaj±ce.
-
-W³a¶ciwe sprawdzanie jest wykonywane przez osobne programy
-("wtyczki"), które zwracaj± informacje o statusie do Nagiosa. Wtyczki
-s± dostêpne na stronie w pakietach nagios-plugins.
-
-Nagios jest nastêpc± NetSainta.
+Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach,
+a wynik ich dzia³ania zwracaæ spowrotem do hosta monitoruj±cego.
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
