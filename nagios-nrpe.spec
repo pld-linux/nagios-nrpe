@@ -1,3 +1,5 @@
+%define 	nsusr		nagios
+%define		nsgrp		nagios
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
@@ -17,6 +19,8 @@ Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-plugins
+Provides:	group(%{nsgrp})
+Provides:	user(%{nsusr})
 Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -24,8 +28,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_datadir	%{_prefix}/share/%{name}
 %define		_plugindir	%{_libdir}/nagios/plugins
 %define		_localstatedir	%{_var}/log/nagios
-%define 	nsusr		nagios
-%define		nsgrp		nagios
 %define		nsport		5666
 
 %description
@@ -118,8 +120,8 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-	/usr/sbin/userdel %{nsusr}
-	/usr/sbin/groupdel %{nsgrp}
+	%userremove %{nsusr}
+	%groupremove %{nsgrp}
 fi
 
 %files
