@@ -1,9 +1,6 @@
-#
-# Conditional build:
-#
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
-Name:		nrpe
+Name:		nagios-nrpe
 Version:	2.0
 Release:	1
 License:	GPL v2
@@ -13,13 +10,13 @@ Source1:	%{name}.init
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-plugins
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc/nagios
 %define		_datadir	%{_prefix}/share/%{name}
