@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+#  Created 2000-01-03 by jaclu@grm.se
+#  Rewritten for PLD 2004-06-02 by patrys@pld-linux.org
+#
+# nrpe          This shell script takes care of starting and stopping
+#               nrpe.
+#
+# chkconfig: 2345 80 30
+# description: nrpe is a daemon for a remote nagios server, \
+#              running nagios plugins on this host.
+# processname: nrpe
+# config: /usr/local/nagios/etc/nrpe.cfg
+
+
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down "nrpe"
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+case "$1" in
+  start)
+	if [ -f /var/lock/subsys/nrpe ]; then
+		msg_already_running "nrpe"
+	else
+		msg_starting "nrpe"
+		daemon nrpe -c /etc/nagios/nrpe.cfg -d
+		touch /var/lock/subsys/nrpe
+	fi
+	;;
+  stop)
+	if [ -f /var/lock/subsys/nrpe ]; then
+		msg_stopping "nrpe"
+		killproc nrpe
+		rm -f /var/lock/subsys/nrpe
+	else
+		msg_not_running "nrpe"
+	fi
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  status)
+	status nrpe
+	;;
+  *)
+	echo "Usage: nrpe {start|stop|restart|status}"
+	exit 1
+esac
+
+exit 0
