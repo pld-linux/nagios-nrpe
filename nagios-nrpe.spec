@@ -4,7 +4,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -94,7 +94,11 @@ if [ -n "`getgid %{nsgrp}`" ]; then
 		exit 1
 	fi
 else
-	/usr/sbin/groupadd -g 72 -f %{nsgrp}
+	if [ -n "`getgid netsaint`" -a "`getgid netsaint`" = "72" ]; then
+		/usr/sbin/groupmod -n %{nsgrp} netsaint
+	else
+		/usr/sbin/groupadd -g 72 -f %{nsgrp}
+	fi
 fi
 if [ -n "`id -u %{nsusr} 2>/dev/null`" ]; then
 	if [ "`id -u %{nsusr}`" != "72" ]; then
@@ -102,7 +106,11 @@ if [ -n "`id -u %{nsusr} 2>/dev/null`" ]; then
 		exit 1
 	fi
 else
-	/usr/sbin/useradd -u 72 -d %{_libdir}/%{name} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
+	if [ -n "`id -u netsaint 2>/dev/null`" -a "`id -u netsaint`" = "72" ]; then
+		/usr/sbin/usermod -d /tmp -l %{nsusr} netsaint
+	else
+		/usr/sbin/useradd -u 72 -d %{_libdir}/%{nsusr} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
+	fi
 fi
 
 %post
@@ -132,6 +140,7 @@ fi
 %attr(751,root,%{nsgrp}) %dir %{_sysconfdir}
 %attr(644,root,%{nsgrp}) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nrpe.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
+%dir %{_libdir}/nagios
 
 %files plugin
 %defattr(644,root,root,755)
