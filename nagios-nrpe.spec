@@ -17,6 +17,7 @@ Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-plugins
+Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc/nagios
