@@ -37,7 +37,7 @@ and report the plugin output back to the monitoring host.
 
 %description -l pl
 Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach,
-a wynik ich dzia³ania zwracaæ spowrotem do hosta monitoruj±cego.
+a wynik ich dzia³ania zwracaæ z powrotem do hosta monitoruj±cego.
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
