@@ -23,6 +23,7 @@ Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-plugins
 Provides:	group(%{nsgrp})
 Provides:	user(%{nsusr})
+Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
