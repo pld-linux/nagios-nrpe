@@ -4,7 +4,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.0
-Release:	2
+Release:	2.2
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -96,7 +96,7 @@ if [ -n "`getgid %{nsgrp}`" ]; then
 		exit 1
 	fi
 else
-	if [ -n "`getgid netsaint`" -a "`getgid netsaint`" = "72" ]; then
+	if [ -n "`getgid netsaint`" ] && [ "`getgid netsaint`" = "72" ]; then
 		/usr/sbin/groupmod -n %{nsgrp} netsaint
 	else
 		/usr/sbin/groupadd -g 72 -f %{nsgrp}
@@ -108,7 +108,7 @@ if [ -n "`id -u %{nsusr} 2>/dev/null`" ]; then
 		exit 1
 	fi
 else
-	if [ -n "`id -u netsaint 2>/dev/null`" -a "`id -u netsaint`" = "72" ]; then
+	if [ -n "`id -u netsaint 2>/dev/null`" ] && [ "`id -u netsaint`" = "72" ]; then
 		/usr/sbin/usermod -d /tmp -l %{nsusr} netsaint
 	else
 		/usr/sbin/useradd -u 72 -d %{_libdir}/%{nsusr} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
