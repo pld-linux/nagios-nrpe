@@ -1,3 +1,10 @@
+# TODO
+# - /etc/nagios - owned by nagios and nagios-nrpe. obsolete eachother?
+#   put /etc/nagios to nagios-dirs? (-base?)
+# - /usr/lib/nagios/plugins - not owned by nagios-nrpe, but it doesn't
+#   require nagios which packages that dir. create nagios-dirs (-base)
+#   package?
+#
 %define 	nsusr		nagios
 %define		nsgrp		nagios
 Summary:	Nagios remote plugin execution service/plugin
