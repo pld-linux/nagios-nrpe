@@ -20,7 +20,7 @@ Source1:	nrpe.init
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	rpmbuild(macros) >= 1.159
+BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	openssl-tools
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
@@ -97,30 +97,17 @@ install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-if [ -n "`getgid %{nsgrp}`" ]; then
-	if [ "`getgid %{nsgrp}`" != "72" ]; then
-		echo "Error: group %{nsgrp} doesn't have gid=72. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	if [ -n "`getgid netsaint`" ] && [ "`getgid netsaint`" = "72" ]; then
-		/usr/sbin/groupmod -n %{nsgrp} netsaint
-	else
-		/usr/sbin/groupadd -g 72 -f %{nsgrp}
-	fi
+# move to trigger?
+if [ -n "`getgid netsaint`" ] && [ "`getgid netsaint`" = "72" ]; then
+	/usr/sbin/groupmod -n %{nsgrp} netsaint
 fi
-if [ -n "`id -u %{nsusr} 2>/dev/null`" ]; then
-	if [ "`id -u %{nsusr}`" != "72" ]; then
-		echo "Error: user %{nsusr} doesn't have uid=72. Correct this before installing %{name}." 1>&2
-		exit 1
-	fi
-else
-	if [ -n "`id -u netsaint 2>/dev/null`" ] && [ "`id -u netsaint`" = "72" ]; then
-		/usr/sbin/usermod -d /tmp -l %{nsusr} netsaint
-	else
-		/usr/sbin/useradd -u 72 -d %{_libdir}/%{nsusr} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr} 1>&2
-	fi
+%groupadd -g 72 -f %{nsgrp}
+
+# move to trigger?
+if [ -n "`id -u netsaint 2>/dev/null`" ] && [ "`id -u netsaint`" = "72" ]; then
+	/usr/sbin/usermod -d /tmp -l %{nsusr} netsaint
 fi
+%useradd -u 72 -d %{_libdir}/%{nsusr} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr}
 
 %post
 /sbin/chkconfig --add nrpe
