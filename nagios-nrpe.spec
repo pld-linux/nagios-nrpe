@@ -1,17 +1,8 @@
-# TODO
-# - /etc/nagios - owned by nagios and nagios-nrpe. obsolete eachother?
-#   put /etc/nagios to nagios-dirs? (-base?)
-# - /usr/lib/nagios/plugins - not owned by nagios-nrpe, but it doesn't
-#   require nagios which packages that dir. create nagios-dirs (-base)
-#   package?
-#
-%define 	nsusr		nagios
-%define		nsgrp		nagios
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.0
-Release:	2.2
+Release:	2.7
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -22,14 +13,13 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	openssl-tools
+PreReq:		nagios-common
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-plugins
-Provides:	group(%{nsgrp})
-Provides:	user(%{nsusr})
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -52,6 +42,7 @@ a wynik ich dzia³ania zwracaæ z powrotem do hosta monitoruj±cego.
 Summary:	check_nrpe plugin for Nagios
 Summary(pl):	Wtyczka check_nrpe dla Nagiosa
 Group:		Networking
+Requires:	nagios-core
 
 %description plugin
 check_nrpe plugin for Nagios. This plugin allows running plugins on
@@ -71,8 +62,8 @@ wtyczek na innych komputerach za pomoc± demona nrpe.
 %configure \
 	--with-init-dir=/etc/rc.d/init.d \
 	--with-nrpe-port=%{nsport} \
-	--with-nrpe-user=%{nsusr} \
-	--with-nrpe-grp=%{nsgrp} \
+	--with-nrpe-user=nagios \
+	--with-nrpe-grp=nagios \
 	--prefix=%{_prefix} \
 	--exec-prefix=%{_sbindir} \
 	--bindir=%{_sbindir} \
@@ -96,19 +87,6 @@ install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
-# move to trigger?
-if [ -n "`getgid netsaint`" ] && [ "`getgid netsaint`" = "72" ]; then
-	/usr/sbin/groupmod -n %{nsgrp} netsaint
-fi
-%groupadd -g 72 -f %{nsgrp}
-
-# move to trigger?
-if [ -n "`id -u netsaint 2>/dev/null`" ] && [ "`id -u netsaint`" = "72" ]; then
-	/usr/sbin/usermod -d /tmp -l %{nsusr} netsaint
-fi
-%useradd -u 72 -d %{_libdir}/%{nsusr} -s /bin/false -c "%{name} User" -g %{nsgrp} %{nsusr}
-
 %post
 /sbin/chkconfig --add nrpe
 if [ -f /var/lock/subsys/nrpe ]; then
@@ -123,20 +101,12 @@ if [ "$1" = "0" ] ; then
 	/sbin/chkconfig --del nrpe
 fi
 
-%postun
-if [ "$1" = "0" ]; then
-	%userremove %{nsusr}
-	%groupremove %{nsgrp}
-fi
-
 %files
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
-%attr(751,root,%{nsgrp}) %dir %{_sysconfdir}
-%attr(644,root,%{nsgrp}) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nrpe.cfg
+%attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nrpe.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
-%dir %{_libdir}/nagios
 
 %files plugin
 %defattr(644,root,root,755)
