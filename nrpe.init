@@ -20,7 +20,7 @@
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
-		msg_network_down "nrpe"
+		msg_network_down "nagios NRPE daemon"
 		exit 1
 	fi
 else
@@ -30,20 +30,21 @@ fi
 case "$1" in
   start)
 	if [ -f /var/lock/subsys/nrpe ]; then
-		msg_already_running "nrpe"
+		msg_already_running "nagios NRPE daemon"
 	else
-		msg_starting "nrpe"
+		msg_starting "nagios NRPE daemon"
 		daemon nrpe -c /etc/nagios/nrpe.cfg -d
-		touch /var/lock/subsys/nrpe
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nrpe
 	fi
 	;;
   stop)
 	if [ -f /var/lock/subsys/nrpe ]; then
-		msg_stopping "nrpe"
+		msg_stopping "nagios NRPE daemon"
 		killproc nrpe
 		rm -f /var/lock/subsys/nrpe
 	else
-		msg_not_running "nrpe"
+		msg_not_running "nagios NRPE daemon"
 	fi
 	;;
   restart|force-reload)
