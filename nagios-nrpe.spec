@@ -13,12 +13,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	openssl-tools
-PreReq:		nagios-common
-Requires(pre):	/usr/bin/getgid
-Requires(pre):	/bin/id
-Requires(pre):	/usr/sbin/groupadd
-Requires(pre):	/usr/sbin/useradd
 Requires(post,postun):	/sbin/chkconfig
+Requires:	nagios-common
 Requires:	nagios-plugins
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
