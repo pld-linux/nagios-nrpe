@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.0
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -11,11 +11,12 @@ Source1:	nrpe.init
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRequires:	openssl-tools
+BuildRequires:	rpmbuild(macros) >= 1.202
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-common
 Requires:	nagios-plugins
+Requires:	rc-scripts
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -27,12 +28,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		nsport		5666
 
 %description
-Nagios nrpe allows you to remotely execute plugins on other hosts
-and report the plugin output back to the monitoring host.
+Nagios nrpe allows you to remotely execute plugins on other hosts and
+report the plugin output back to the monitoring host.
 
 %description -l pl
-Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach,
-a wynik ich dzia³ania zwracaæ z powrotem do hosta monitoruj±cego.
+Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach, a
+wynik ich dzia³ania zwracaæ z powrotem do hosta monitoruj±cego.
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
@@ -45,8 +46,8 @@ check_nrpe plugin for Nagios. This plugin allows running plugins on
 remote machines using nrpe service.
 
 %description plugin -l pl
-Wtyczka check_nrpe dla Nagiosa. Pozwala na zdalne uruchamianie
-wtyczek na innych komputerach za pomoc± demona nrpe.
+Wtyczka check_nrpe dla Nagiosa. Pozwala na zdalne uruchamianie wtyczek
+na innych komputerach za pomoc± demona nrpe.
 
 %prep
 %setup -q -n nrpe-%{version}
@@ -56,17 +57,11 @@ wtyczek na innych komputerach za pomoc± demona nrpe.
 %{__autoconf}
 
 %configure \
+	--libexecdir=%{_plugindir} \
 	--with-init-dir=/etc/rc.d/init.d \
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
 	--with-nrpe-grp=nagios \
-	--prefix=%{_prefix} \
-	--exec-prefix=%{_sbindir} \
-	--bindir=%{_sbindir} \
-	--libexecdir=%{_plugindir} \
-	--datadir=%{_prefix}/share/nagios \
-	--sysconfdir=%{_sysconfdir} \
-	--localstatedir=%{_localstatedir} 
 
 %{__make} all
 
@@ -75,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir},%{_libdir}/nagios/plugins,%{_sbindir}} \
 	$RPM_BUILD_ROOT%{_localstatedir}
 
-install nrpe.cfg $RPM_BUILD_ROOT/etc/nagios/nrpe.cfg
+install nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
@@ -101,10 +96,9 @@ fi
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
-%attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nrpe.cfg
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
 
 %files plugin
 %defattr(644,root,root,755)
-%dir %{_plugindir}
 %attr(755,root,root) %{_plugindir}/*
