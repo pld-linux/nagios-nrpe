@@ -1,12 +1,12 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	2.0
-Release:	5
+Version:	2.4
+Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-# Source0-md5:	70ef9502a3b7e49fa520dbceabfa04d0
+# Source0-md5:	187c9870119f7e1a64274e44aeef08aa
 Source1:	nrpe.init
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
@@ -62,6 +62,8 @@ na innych komputerach za pomoc± demona nrpe.
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
 	--with-nrpe-grp=nagios \
+	--enable-ssl \
+	--enable-command-args
 
 %{__make} all
 
@@ -70,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir},%{_libdir}/nagios/plugins,%{_sbindir}} \
 	$RPM_BUILD_ROOT%{_localstatedir}
 
-install nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
+install sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
