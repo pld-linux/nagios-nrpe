@@ -12,7 +12,7 @@ URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-tools
-BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,postun):	/sbin/chkconfig
 Requires:	nagios-common
 Requires:	nagios-plugins
@@ -82,15 +82,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add nrpe
-if [ -f /var/lock/subsys/nrpe ]; then
-	/etc/rc.d/init.d/nrpe restart 1>&2
-fi
+%service nrpe restart
 
 %preun
 if [ "$1" = "0" ] ; then
-	if [ -f /var/lock/subsys/nrpe ]; then
-		/etc/rc.d/init.d/nrpe stop 1>&2
-	fi
+	%service nrpe stop
 	/sbin/chkconfig --del nrpe
 fi
 
