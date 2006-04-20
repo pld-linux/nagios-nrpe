@@ -13,7 +13,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.268
-Requires(post,postun):	/sbin/chkconfig
+Requires(post,preun):	/sbin/chkconfig
 Requires:	nagios-common
 Requires:	nagios-plugins
 Requires:	rc-scripts
