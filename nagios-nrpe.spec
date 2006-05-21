@@ -8,7 +8,7 @@ Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
 # Source0-md5:	e083553deaf47a79fd23906d823afc59
 Source1:	nrpe.init
-Patch0:		nagios-nrpe-config.patch
+Patch0:		%{name}-config.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
