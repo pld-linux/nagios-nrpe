@@ -2,12 +2,13 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.4
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
 # Source0-md5:	187c9870119f7e1a64274e44aeef08aa
 Source1:	nrpe.init
+Patch0:		nagios-nrpe-config.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -52,6 +53,7 @@ na innych komputerach za pomoc± demona nrpe.
 
 %prep
 %setup -q -n nrpe-%{version}
+%patch0 -p1
 
 %build
 %{__aclocal}
