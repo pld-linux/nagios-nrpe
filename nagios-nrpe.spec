@@ -1,12 +1,12 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	2.5.1
+Version:	2.5.2
 Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-# Source0-md5:	e083553deaf47a79fd23906d823afc59
+# Source0-md5:	22afa197db8e4e5b13fac48636917b6d
 Source1:	nrpe.init
 Patch0:		%{name}-config.patch
 URL:		http://www.nagios.org/
@@ -30,8 +30,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		nsport		5666
 
 %description
-Nagios nrpe allows you to remotely execute plugins on other hosts and
-report the plugin output back to the monitoring host.
+NRPE is an addon for Nagios that allows you to execute "local" plugins
+(like check_disk, check_procs, etc.) on remote hosts. The check_nrpe
+plugin is called from Nagios and makes plugin execution requests to
+the NRPE daemon running on the remote host (either as a standalone
+daemon or as a service under inetd). Supports passing command
+arguments to server, as well as native SSL/TLS encryption (anonymous
+DH mode).
 
 %description -l pl
 Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach, a
