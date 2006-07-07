@@ -16,7 +16,6 @@ BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	nagios-common
-Requires:	nagios-plugins
 Requires:	rc-scripts
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
