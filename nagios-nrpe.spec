@@ -1,5 +1,3 @@
-# TODO
-# - update pl
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
@@ -40,8 +38,13 @@ arguments to server, as well as native SSL/TLS encryption (anonymous
 DH mode).
 
 %description -l pl
-Nagios npre pozwala zdalnie uruchamiaæ wtyczki na innych hostach, a
-wynik ich dzia³ania zwracaæ z powrotem do hosta monitoruj±cego.
+NRPE to dodatek do Nagiosa pozwalaj±cy na wywo³ywanie "lokalnych"
+wtyczek (takich jak check_disk, check_procs itp.) na zdalnych
+maszynach. Wtyczka check_nrpe jest wywo³ywana z poziomu Nagiosa i
+wysy³a ¿±dania uruchomienia wtyczek do demona NRPE dzia³aj±cego na
+zdalnej maszynie (jako samodzielny demon lub us³uga inetd). Obs³uguje
+przekazywanie argumentów poleceñ do serwera, a tak¿e natywne
+szyfrowanie SSL/TLS (w trybie anonimowego DH).
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
