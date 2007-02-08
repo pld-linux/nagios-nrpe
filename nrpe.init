@@ -41,7 +41,7 @@ start() {
 stop() {
 	if [ -f /var/lock/subsys/nrpe ]; then
 		msg_stopping "Nagios NRPE daemon"
-		killproc nrpe
+		killproc --pidfile nrpe/nrpe.pid nrpe
 		rm -f /var/lock/subsys/nrpe
 	else
 		msg_not_running "Nagios NRPE daemon"
