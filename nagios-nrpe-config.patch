@@ -1,5 +1,14 @@
---- nrpe-2.4/sample-config/nrpe.cfg.in~	2006-02-04 00:02:32.000000000 +0200
-+++ nrpe-2.4/sample-config/nrpe.cfg.in	2006-05-21 22:20:00.671748952 +0300
+--- nrpe-2.4/sample-config/nrpe.cfg.in	2006-05-21 22:20:00.671748952 +0300
++++ nrpe-2.6/sample-config/nrpe.cfg.in	2007-02-08 18:01:01.000000000 +0200
+@@ -16,7 +16,7 @@
+ # number.  The file is only written if the NRPE daemon is started by the root
+ # user and is running in standalone mode.
+ 
+-pid_file=/var/run/nrpe.pid
++pid_file=/var/run/nrpe/nrpe.pid
+ 
+ 
+ 
 @@ -162,12 +162,12 @@
  
  # The following examples use hardcoded command arguments...
