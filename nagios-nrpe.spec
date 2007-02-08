@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl):	Demon i wtyczka zdalnego wywo³ywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.6
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -81,7 +81,7 @@ na innych komputerach za pomoc± demona nrpe.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir},%{_libdir}/nagios/plugins,%{_sbindir}} \
-	$RPM_BUILD_ROOT%{_localstatedir}
+	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe}
 
 install sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
@@ -101,12 +101,16 @@ if [ "$1" = "0" ] ; then
 	/sbin/chkconfig --del nrpe
 fi
 
+%triggerpostun -- %{name} < 2.6-1.1
+%{__sed} -i -e 's,/var/run/nrpe.pid,/var/run/nrpe/nrpe.pid,' %{_sysconfdir}/nrpe.cfg
+
 %files
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
-%attr(754,root,root) /etc/rc.d/init.d/nrpe
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
+%attr(754,root,root) /etc/rc.d/init.d/nrpe
+%dir %attr(775,root,nagios) /var/run/nrpe
 
 %files plugin
 %defattr(644,root,root,755)
