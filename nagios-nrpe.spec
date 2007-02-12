@@ -1,5 +1,5 @@
 Summary:	Nagios remote plugin execution service/plugin
-Summary(pl):	Demon i wtyczka zdalnego wywo≥ywania wtyczek Nagios
+Summary(pl.UTF-8):   Demon i wtyczka zdalnego wywo≈Çywania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.6
 Release:	2
@@ -37,18 +37,18 @@ daemon or as a service under inetd). Supports passing command
 arguments to server, as well as native SSL/TLS encryption (anonymous
 DH mode).
 
-%description -l pl
-NRPE to dodatek do Nagiosa pozwalaj±cy na wywo≥ywanie "lokalnych"
+%description -l pl.UTF-8
+NRPE to dodatek do Nagiosa pozwalajƒÖcy na wywo≈Çywanie "lokalnych"
 wtyczek (takich jak check_disk, check_procs itp.) na zdalnych
-maszynach. Wtyczka check_nrpe jest wywo≥ywana z poziomu Nagiosa i
-wysy≥a ø±dania uruchomienia wtyczek do demona NRPE dzia≥aj±cego na
-zdalnej maszynie (jako samodzielny demon lub us≥uga inetd). Obs≥uguje
-przekazywanie argumentÛw poleceÒ do serwera, a takøe natywne
+maszynach. Wtyczka check_nrpe jest wywo≈Çywana z poziomu Nagiosa i
+wysy≈Ça ≈ºƒÖdania uruchomienia wtyczek do demona NRPE dzia≈ÇajƒÖcego na
+zdalnej maszynie (jako samodzielny demon lub us≈Çuga inetd). Obs≈Çuguje
+przekazywanie argument√≥w polece≈Ñ do serwera, a tak≈ºe natywne
 szyfrowanie SSL/TLS (w trybie anonimowego DH).
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
-Summary(pl):	Wtyczka check_nrpe dla Nagiosa
+Summary(pl.UTF-8):   Wtyczka check_nrpe dla Nagiosa
 Group:		Networking
 Requires:	nagios-core
 
@@ -56,9 +56,9 @@ Requires:	nagios-core
 check_nrpe plugin for Nagios. This plugin allows running plugins on
 remote machines using nrpe service.
 
-%description plugin -l pl
+%description plugin -l pl.UTF-8
 Wtyczka check_nrpe dla Nagiosa. Pozwala na zdalne uruchamianie wtyczek
-na innych komputerach za pomoc± demona nrpe.
+na innych komputerach za pomocƒÖ demona nrpe.
 
 %prep
 %setup -q -n nrpe-%{version}
