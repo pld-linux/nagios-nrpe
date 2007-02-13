@@ -1,5 +1,5 @@
 Summary:	Nagios remote plugin execution service/plugin
-Summary(pl.UTF-8):   Demon i wtyczka zdalnego wywoływania wtyczek Nagios
+Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.6
 Release:	2
@@ -48,7 +48,7 @@ szyfrowanie SSL/TLS (w trybie anonimowego DH).
 
 %package plugin
 Summary:	check_nrpe plugin for Nagios
-Summary(pl.UTF-8):   Wtyczka check_nrpe dla Nagiosa
+Summary(pl.UTF-8):	Wtyczka check_nrpe dla Nagiosa
 Group:		Networking
 Requires:	nagios-core
 
