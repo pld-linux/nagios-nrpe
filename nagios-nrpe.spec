@@ -18,6 +18,7 @@ Requires(post,preun):	/sbin/chkconfig
 Requires:	nagios-common
 Requires:	rc-scripts
 Suggests:	nagios-plugins
+Suggests:	nagios-plugin-check_load
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
