@@ -12,6 +12,7 @@ Patch0:		%{name}-config.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
