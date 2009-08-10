@@ -86,7 +86,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/plugins,%{_libdir}/na
 	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe}
 
 install sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
-sed -i -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nrpe.cfg
+sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nrpe.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
