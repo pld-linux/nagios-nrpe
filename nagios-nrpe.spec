@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.12
-Release:	7
+Release:	8
 License:	GPL v2
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -88,7 +88,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/plugins,%{_libdir}/na
 	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe}
 
 install sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
-sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nrpe.cfg
+sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/check_nrpe.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
@@ -109,6 +109,13 @@ fi
 %triggerpostun -- %{name} < 2.6-1.1
 %{__sed} -i -e 's,/var/run/nrpe.pid,/var/run/nrpe/nrpe.pid,' %{_sysconfdir}/nrpe.cfg
 
+%triggerpostun -n nagios-plugin-check_nrpe -- nagios-plugin-check_nrpe < 2.12-7.1
+if [ -f %{_sysconfdir}/plugins/nrpe.cfg.rpmsave ]; then
+	cp -f %{_sysconfdir}/plugins/check_nrpe.cfg{,.rpmnew}
+	mv -f %{_sysconfdir}/plugins/{nrpe.cfg.rpmsave,check_nrpe.cfg}
+	sed -i -e 's,-c \$ARG1\$,$ARG1$,' %{_sysconfdir}/plugins/check_nrpe.cfg
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
@@ -119,5 +126,5 @@ fi
 
 %files -n nagios-plugin-check_nrpe
 %defattr(644,root,root,755)
-%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins/nrpe.cfg
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins/check_nrpe.cfg
 %attr(755,root,root) %{_plugindir}/check_nrpe
