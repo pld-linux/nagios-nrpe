@@ -50,6 +50,17 @@ stop() {
 	rm -f /var/lock/subsys/nrpe
 }
 
+condrestart() {
+	if [ ! -f /var/lock/subsys/nrpe ]; then
+		msg_not_running "Nagios NRPE daemon"
+		RETVAL=$1
+		return
+	fi
+
+	stop
+	start
+}
+
 RETVAL=0
 case "$1" in
   start)
@@ -58,16 +69,22 @@ case "$1" in
   stop)
   	stop
 	;;
-  restart|force-reload)
+  restart)
 	stop
 	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
 	;;
   status)
 	status nrpe
 	exit $?
 	;;
   *)
-	echo "Usage: nrpe {start|stop|restart|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
 	exit 3
 esac
 
