@@ -30,22 +30,24 @@ fi
 start() {
 	if [ -f /var/lock/subsys/nrpe ]; then
 		msg_already_running "Nagios NRPE daemon"
-	else
-		msg_starting "Nagios NRPE daemon"
-		daemon nrpe -c /etc/nagios/nrpe.cfg -d
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nrpe
+		return
 	fi
+
+	msg_starting "Nagios NRPE daemon"
+	daemon /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nrpe
 }
 
 stop() {
-	if [ -f /var/lock/subsys/nrpe ]; then
-		msg_stopping "Nagios NRPE daemon"
-		killproc --pidfile nrpe/nrpe.pid nrpe
-		rm -f /var/lock/subsys/nrpe
-	else
+	if [ ! -f /var/lock/subsys/nrpe ]; then
 		msg_not_running "Nagios NRPE daemon"
+		return
 	fi
+
+	msg_stopping "Nagios NRPE daemon"
+	killproc --pidfile nrpe/nrpe.pid nrpe
+	rm -f /var/lock/subsys/nrpe
 }
 
 RETVAL=0
