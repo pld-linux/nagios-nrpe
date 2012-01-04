@@ -1,12 +1,12 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	2.12
-Release:	15
+Version:	2.13
+Release:	1
 License:	GPL v2
 Group:		Networking
-Source0:	http://dl.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-# Source0-md5:	b2d75e2962f1e3151ef58794d60c9e97
+Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
+# Source0-md5:	e5176d9b258123ce9cf5872e33a77c1a
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Patch0:		%{name}-config.patch
@@ -54,7 +54,7 @@ Summary(pl.UTF-8):	Wtyczka check_nrpe dla Nagiosa
 Group:		Networking
 Requires:	nagios-common
 Provides:	%{name}-plugin = %{version}-%{release}
-Obsoletes:	%{name}-plugin < 2.12-6
+Obsoletes:	nagios-nrpe-plugin < 2.12-6
 
 %description -n nagios-plugin-check_nrpe
 check_nrpe plugin for Nagios. This plugin allows running plugins on
@@ -73,10 +73,9 @@ na innych komputerach za pomocą demona nrpe.
 %{__autoconf}
 
 %configure \
-	--with-init-dir=/etc/rc.d/init.d \
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
-	--with-nrpe-grp=nagios \
+	--with-nrpe-group=nagios \
 	--enable-ssl \
 	--enable-command-args
 
@@ -84,14 +83,14 @@ na innych komputerach za pomocą demona nrpe.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/plugins,%{_libdir}/nagios/plugins,%{_sbindir}} \
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/{plugins,nrpe.d},%{_libdir}/nagios/plugins,%{_sbindir}} \
 	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe}
 
-install sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
+cp -p sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/check_nrpe.cfg
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
-install src/nrpe $RPM_BUILD_ROOT%{_sbindir}
-install src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
+install -p src/nrpe $RPM_BUILD_ROOT%{_sbindir}
+install -p src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -120,6 +119,7 @@ fi
 %defattr(644,root,root,755)
 %doc Changelog LEGAL README* SECURITY
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
+%attr(750,root,nagios) %dir %{_sysconfdir}/nrpe.d
 %attr(755,root,root) %{_sbindir}/nrpe
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
 %dir %attr(775,root,nagios) /var/run/nrpe

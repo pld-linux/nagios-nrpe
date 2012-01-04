@@ -1,6 +1,5 @@
-diff -ur nrpe-2.12/sample-config/nrpe.cfg.in nrpe-2.12.new/sample-config/nrpe.cfg.in
---- nrpe-2.12/sample-config/nrpe.cfg.in	2007-11-23 18:31:23.000000000 +0100
-+++ nrpe-2.12.new/sample-config/nrpe.cfg.in	2008-03-27 09:47:26.682398787 +0100
+--- nrpe-2.12.new/sample-config/nrpe.cfg.in	2008-03-27 09:47:26.682398787 +0100
++++ nrpe-2.12/sample-config/nrpe.cfg.in	2012-01-04 17:57:22.907296034 +0200
 @@ -23,7 +23,7 @@
  # number.  The file is only written if the NRPE daemon is started by the root
  # user and is running in standalone mode.
@@ -10,7 +9,17 @@ diff -ur nrpe-2.12/sample-config/nrpe.cfg.in nrpe-2.12.new/sample-config/nrpe.cf
  
  
  
-@@ -196,11 +196,11 @@
+@@ -169,8 +169,7 @@
+ # This directive allows you to include definitions from config files (with a
+ # .cfg extension) in one or more directories (with recursion).
+ 
+-#include_dir=<somedirectory>
+-#include_dir=<someotherdirectory>
++include_dir=/etc/nagios/nrpe.d
+ 
+ 
+ 
+@@ -196,11 +195,11 @@
  
  # The following examples use hardcoded command arguments...
  
@@ -27,4 +36,3 @@ diff -ur nrpe-2.12/sample-config/nrpe.cfg.in nrpe-2.12.new/sample-config/nrpe.cf
  
  
  # The following examples allow user-supplied arguments and can
-Tylko w nrpe-2.12.new/sample-config: nrpe.cfg.in~
