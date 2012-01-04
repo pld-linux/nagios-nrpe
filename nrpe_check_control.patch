@@ -1,0 +1,13 @@
+--- nrpe-2.13/contrib/nrpe_check_control.c~	2002-02-22 03:15:34.000000000 +0200
++++ nrpe-2.13/contrib/nrpe_check_control.c	2012-01-04 18:15:51.491252922 +0200
+@@ -5,8 +5,8 @@
+ #define MAX_CHARS	1024
+ #define SERVICE_COUNT	12
+ 
+-#define COMMAND_FILE	"/usr/local/nagios/var/rw/nagios.cmd"
+-#define SERVICES_FILE	"/usr/local/nagios/etc/services.cfg"
++#define COMMAND_FILE	"/var/lib/nagios/rw/nagios.cmd"
++#define SERVICES_FILE	"/var/lib/nagios/status.dat"
+ 
+ int main(int argc, char *argv[])
+ {

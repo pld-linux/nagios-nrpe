@@ -10,6 +10,7 @@ Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Patch0:		%{name}-config.patch
+Patch1:		nrpe_check_control.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -66,12 +67,13 @@ na innych komputerach za pomocą demona nrpe.
 
 %prep
 %setup -q -n nrpe-%{version}
+%undos contrib/nrpe_check_control.c
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal}
 %{__autoconf}
-
 %configure \
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
@@ -80,6 +82,8 @@ na innych komputerach za pomocą demona nrpe.
 	--enable-command-args
 
 %{__make} all
+
+%{__cc} %{rpmcppflags} %{rpmcflags} %{rpmldflags} contrib/nrpe_check_control.c -o contrib/nrpe_check_control
 
 %install
 rm -rf $RPM_BUILD_ROOT
