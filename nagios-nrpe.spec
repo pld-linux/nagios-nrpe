@@ -9,6 +9,7 @@ Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
 # Source0-md5:	e5176d9b258123ce9cf5872e33a77c1a
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
+Source3:	%{name}.tmpfiles
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
 URL:		http://www.nagios.org/
@@ -88,13 +89,16 @@ na innych komputerach za pomocą demona nrpe.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/{plugins,nrpe.d},%{_libdir}/nagios/plugins,%{_sbindir}} \
-	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe}
+	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe} \
+	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
 cp -p sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/check_nrpe.cfg
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install -p src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install -p src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
+
+install %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -127,6 +131,7 @@ fi
 %attr(755,root,root) %{_sbindir}/nrpe
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
 %dir %attr(775,root,nagios) /var/run/nrpe
+/usr/lib/tmpfiles.d/%{name}.conf
 
 %files -n nagios-plugin-check_nrpe
 %defattr(644,root,root,755)
