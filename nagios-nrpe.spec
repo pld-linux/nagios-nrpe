@@ -31,13 +31,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		nsport		5666
 
 %description
-NRPE is an addon for Nagios that allows you to execute "local" plugins
-(like check_disk, check_procs, etc.) on remote hosts. The check_nrpe
-plugin is called from Nagios and makes plugin execution requests to
-the NRPE daemon running on the remote host (either as a standalone
-daemon or as a service under inetd). Supports passing command
-arguments to server, as well as native SSL/TLS encryption (anonymous
-DH mode).
+NPRE (Nagios Remote Plugin Executor) is a system daemon that will
+execute various Nagios plugins locally on behalf of a remote
+(monitoring) host that uses the check_nrpe plugin.
 
 %description -l pl.UTF-8
 NRPE to dodatek do Nagiosa pozwalający na wywoływanie "lokalnych"
@@ -57,8 +53,10 @@ Provides:	%{name}-plugin = %{version}-%{release}
 Obsoletes:	nagios-nrpe-plugin < 2.12-6
 
 %description -n nagios-plugin-check_nrpe
-check_nrpe plugin for Nagios. This plugin allows running plugins on
-remote machines using nrpe service.
+The check_nrpe plugin is called from Nagios and makes plugin execution
+requests to the NRPE daemon running on the remote host. Supports
+passing command arguments to server, as well as native SSL/TLS
+encryption (anonymous DH mode).
 
 %description -n nagios-plugin-check_nrpe -l pl.UTF-8
 Wtyczka check_nrpe dla Nagiosa. Pozwala na zdalne uruchamianie wtyczek
