@@ -13,8 +13,6 @@ Source3:	%{name}.tmpfiles
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
 URL:		http://www.nagios.org/
-BuildRequires:	autoconf
-BuildRequires:	automake
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.647
@@ -73,8 +71,6 @@ na innych komputerach za pomocą demona nrpe.
 %patch1 -p1
 
 %build
-%{__aclocal}
-%{__autoconf}
 %configure \
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
