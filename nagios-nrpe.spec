@@ -1,12 +1,12 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	2.13
-Release:	4
+Version:	2.14
+Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-# Source0-md5:	e5176d9b258123ce9cf5872e33a77c1a
+# Source0-md5:	105857720e21674083a6d6be99e102c7
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Source3:	%{name}.tmpfiles
@@ -17,7 +17,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.647
 Requires(post,preun):	/sbin/chkconfig
 Requires:	nagios-common
 Requires:	rc-scripts
@@ -90,15 +90,14 @@ na innych komputerach za pomocą demona nrpe.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/{plugins,nrpe.d},%{_libdir}/nagios/plugins,%{_sbindir}} \
 	$RPM_BUILD_ROOT{%{_localstatedir},/var/run/nrpe} \
-	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
+	$RPM_BUILD_ROOT%{systemdtmpfilesdir}
 
 cp -p sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
 sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/check_nrpe.cfg
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install -p src/nrpe $RPM_BUILD_ROOT%{_sbindir}
 install -p src/check_nrpe $RPM_BUILD_ROOT%{_plugindir}
-
-install %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/%{name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -131,7 +130,7 @@ fi
 %attr(755,root,root) %{_sbindir}/nrpe
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
 %dir %attr(775,root,nagios) /var/run/nrpe
-/usr/lib/tmpfiles.d/%{name}.conf
+%{systemdtmpfilesdir}/%{name}.conf
 
 %files -n nagios-plugin-check_nrpe
 %defattr(644,root,root,755)
