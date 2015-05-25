@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.15
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -10,6 +10,7 @@ Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Source3:	%{name}.tmpfiles
+Source4:	commands.cfg
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
 URL:		http://www.nagios.org/
@@ -88,6 +89,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sysconfdir}/{plugins,nrpe.d},%{_l
 	$RPM_BUILD_ROOT%{systemdtmpfilesdir}
 
 cp -p sample-config/nrpe.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.cfg
+cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/nrpe.d
 sed -e 's,@plugindir@,%{_plugindir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/plugins/check_nrpe.cfg
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nrpe
 install -p src/nrpe $RPM_BUILD_ROOT%{_sbindir}
@@ -107,6 +109,20 @@ if [ "$1" = "0" ] ; then
 	/sbin/chkconfig --del nrpe
 fi
 
+%triggerpostun -- %{name} < 2.15-4
+# skip *this* trigger on downgrade
+[ $1 -le 1 ] && exit 0
+
+# check if need to migrate
+grep -q '^command\['  %{_sysconfdir}/nrpe.cfg || exit 0
+
+# move command definitions to separate file
+mv -f  %{_sysconfdir}/nrpe.d/commands.cfg{,.rpmnew}
+grep '^command\['  %{_sysconfdir}/nrpe.cfg > %{_sysconfdir}/nrpe.d/commands.cfg
+cp -f %{_sysconfdir}/nrpe.cfg{,.rpmsave}
+sed -i -e '/^command\[/d' %{_sysconfdir}/nrpe.cfg
+%service nrpe restart
+
 %triggerpostun -- %{name} < 2.6-1.1
 %{__sed} -i -e 's,/var/run/nrpe.pid,/var/run/nrpe/nrpe.pid,' %{_sysconfdir}/nrpe.cfg
 
@@ -122,6 +138,7 @@ fi
 %doc Changelog LEGAL README* SECURITY
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
 %attr(750,root,nagios) %dir %{_sysconfdir}/nrpe.d
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.d/commands.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
 %dir %attr(775,root,nagios) /var/run/nrpe

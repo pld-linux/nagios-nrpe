@@ -1,5 +1,5 @@
---- nrpe-2.12.new/sample-config/nrpe.cfg.in	2008-03-27 09:47:26.682398787 +0100
-+++ nrpe-2.12/sample-config/nrpe.cfg.in	2012-01-04 17:57:22.907296034 +0200
+--- nrpe-2.12/sample-config/nrpe.cfg.in	2012-01-04 17:57:22.907296034 +0200
++++ nrpe-2.15/sample-config/nrpe.cfg.in	2015-05-25 15:40:07.747598382 +0300
 @@ -23,7 +23,7 @@
  # number.  The file is only written if the NRPE daemon is started by the root
  # user and is running in standalone mode.
@@ -19,20 +19,47 @@
  
  
  
-@@ -196,11 +195,11 @@
- 
- # The following examples use hardcoded command arguments...
- 
+@@ -195,41 +194,2 @@
+-
+-
+-# COMMAND DEFINITIONS
+-# Command definitions that this daemon will run.  Definitions
+-# are in the following format:
+-#
+-# command[<command_name>]=<command_line>
+-#
+-# When the daemon receives a request to return the results of <command_name>
+-# it will execute the command specified by the <command_line> argument.
+-#
+-# Unlike Nagios, the command line cannot contain macros - it must be
+-# typed exactly as it should be executed.
+-#
+-# Note: Any plugins that are used in the command lines must reside
+-# on the machine that this daemon is running on!  The examples below
+-# assume that you have plugins installed in a /usr/local/nagios/libexec
+-# directory.  Also note that you will have to modify the definitions below
+-# to match the argument format the plugins expect.  Remember, these are
+-# examples only!
+-
+-
+-# The following examples use hardcoded command arguments...
+-
 -command[check_users]=@libexecdir@/check_users -w 5 -c 10
 -command[check_load]=@libexecdir@/check_load -w 15,10,5 -c 30,25,20
 -command[check_hda1]=@libexecdir@/check_disk -w 20% -c 10% -p /dev/hda1
 -command[check_zombie_procs]=@libexecdir@/check_procs -w 5 -c 10 -s Z
 -command[check_total_procs]=@libexecdir@/check_procs -w 150 -c 200 
-+#command[check_users]=@libexecdir@/check_users -w 5 -c 10
-+#command[check_load]=@libexecdir@/check_load -w 15,10,5 -c 30,25,20
-+#command[check_hda1]=@libexecdir@/check_disk -w 20% -c 10% -p /dev/hda1
-+#command[check_zombie_procs]=@libexecdir@/check_procs -w 5 -c 10 -s Z
-+#command[check_total_procs]=@libexecdir@/check_procs -w 150 -c 200 
- 
- 
- # The following examples allow user-supplied arguments and can
+-
+-
+-# The following examples allow user-supplied arguments and can
+-# only be used if the NRPE daemon was compiled with support for 
+-# command arguments *AND* the dont_blame_nrpe directive in this
+-# config file is set to '1'.  This poses a potential security risk, so
+-# make sure you read the SECURITY file before doing this.
+-
+-#command[check_users]=@libexecdir@/check_users -w $ARG1$ -c $ARG2$
+-#command[check_load]=@libexecdir@/check_load -w $ARG1$ -c $ARG2$
+-#command[check_disk]=@libexecdir@/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
+-#command[check_procs]=@libexecdir@/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
++# NOTE:
++# In PLD Linux, command definitions in file /etc/nagios/nrpe.d/commands.cfg
