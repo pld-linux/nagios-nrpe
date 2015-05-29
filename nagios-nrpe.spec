@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	2.15
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -109,18 +109,24 @@ if [ "$1" = "0" ] ; then
 	/sbin/chkconfig --del nrpe
 fi
 
-%triggerpostun -- %{name} < 2.15-4
+%triggerpostun -- %{name} < 2.15-5
 # skip *this* trigger on downgrade
 [ $1 -le 1 ] && exit 0
 
+# ensure there's include_dir directive
+if ! grep -q '^include_dir=%{_sysconfdir}/nrpe.d' %{_sysconfdir}/nrpe.cfg; then
+	echo 'include_dir=%{_sysconfdir}/nrpe.d' >> %{_sysconfdir}/nrpe.cfg
+fi
+
 # check if need to migrate
-grep -q '^command\['  %{_sysconfdir}/nrpe.cfg || exit 0
+grep -q '^command\[' %{_sysconfdir}/nrpe.cfg || exit 0
 
 # move command definitions to separate file
 mv -f  %{_sysconfdir}/nrpe.d/commands.cfg{,.rpmnew}
 grep '^command\['  %{_sysconfdir}/nrpe.cfg > %{_sysconfdir}/nrpe.d/commands.cfg
 cp -f %{_sysconfdir}/nrpe.cfg{,.rpmsave}
 sed -i -e '/^command\[/d' %{_sysconfdir}/nrpe.cfg
+
 %service nrpe restart
 
 %triggerpostun -- %{name} < 2.6-1.1
