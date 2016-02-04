@@ -27,6 +27,8 @@ else
 	exit 0
 fi
 
+pidfile=/var/run/nrpe/nrpe.pid
+
 start() {
 	if [ -f /var/lock/subsys/nrpe ]; then
 		msg_already_running "Nagios NRPE daemon"
@@ -46,7 +48,7 @@ stop() {
 	fi
 
 	msg_stopping "Nagios NRPE daemon"
-	killproc --pidfile nrpe/nrpe.pid nrpe
+	killproc --pidfile $pidfile nrpe
 	rm -f /var/lock/subsys/nrpe
 }
 
@@ -80,7 +82,7 @@ case "$1" in
 	condrestart 7
 	;;
   status)
-	status nrpe
+	status --pidfile $pidfile nrpe
 	exit $?
 	;;
   *)
