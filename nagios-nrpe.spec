@@ -28,7 +28,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	/etc/nagios
 %define		_datadir	%{_prefix}/share/%{name}
 %define		_plugindir	%{_libdir}/nagios/plugins
-%define		_libexecdir	%{_plugindir}
 %define		_localstatedir	%{_var}/log/nagios
 %define		nsport		5666
 
