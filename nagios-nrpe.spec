@@ -140,7 +140,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc Changelog LEGAL README* SECURITY.md
+%doc Changelog LEGAL README* SECURITY.md update-cfg.pl
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
 %attr(750,root,nagios) %dir %{_sysconfdir}/nrpe.d
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.d/commands.cfg
