@@ -1,15 +1,15 @@
---- nrpe-2.12/sample-config/nrpe.cfg.in	2012-01-04 17:57:22.907296034 +0200
-+++ nrpe-2.15/sample-config/nrpe.cfg.in	2015-05-25 15:40:07.747598382 +0300
+--- nrpe-3.0.orig/sample-config/nrpe.cfg.in	2016-07-12 23:24:40.000000000 +0300
++++ nrpe-3.0/sample-config/nrpe.cfg.in	2016-09-07 15:46:35.913180521 +0300
 @@ -23,7 +23,7 @@
  # number.  The file is only written if the NRPE daemon is started by the root
  # user and is running in standalone mode.
  
--pid_file=/var/run/nrpe.pid
+-pid_file=@piddir@/nrpe.pid
 +pid_file=/var/run/nrpe/nrpe.pid
  
  
  
-@@ -169,8 +169,7 @@
+@@ -257,47 +257,8 @@
  # This directive allows you to include definitions from config files (with a
  # .cfg extension) in one or more directories (with recursion).
  
@@ -18,9 +18,6 @@
 +include_dir=/etc/nagios/nrpe.d
  
  
- 
-@@ -195,41 +194,2 @@
--
 -
 -# COMMAND DEFINITIONS
 -# Command definitions that this daemon will run.  Definitions
@@ -44,22 +41,22 @@
 -
 -# The following examples use hardcoded command arguments...
 -
--command[check_users]=@libexecdir@/check_users -w 5 -c 10
--command[check_load]=@libexecdir@/check_load -w 15,10,5 -c 30,25,20
--command[check_hda1]=@libexecdir@/check_disk -w 20% -c 10% -p /dev/hda1
--command[check_zombie_procs]=@libexecdir@/check_procs -w 5 -c 10 -s Z
--command[check_total_procs]=@libexecdir@/check_procs -w 150 -c 200 
+-command[check_users]=@pluginsdir@/check_users -w 5 -c 10
+-command[check_load]=@pluginsdir@/check_load -w 15,10,5 -c 30,25,20
+-command[check_hda1]=@pluginsdir@/check_disk -w 20% -c 10% -p /dev/hda1
+-command[check_zombie_procs]=@pluginsdir@/check_procs -w 5 -c 10 -s Z
+-command[check_total_procs]=@pluginsdir@/check_procs -w 150 -c 200
 -
 -
 -# The following examples allow user-supplied arguments and can
--# only be used if the NRPE daemon was compiled with support for 
+-# only be used if the NRPE daemon was compiled with support for
 -# command arguments *AND* the dont_blame_nrpe directive in this
 -# config file is set to '1'.  This poses a potential security risk, so
 -# make sure you read the SECURITY file before doing this.
 -
--#command[check_users]=@libexecdir@/check_users -w $ARG1$ -c $ARG2$
--#command[check_load]=@libexecdir@/check_load -w $ARG1$ -c $ARG2$
--#command[check_disk]=@libexecdir@/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
--#command[check_procs]=@libexecdir@/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
+-#command[check_users]=@pluginsdir@/check_users -w $ARG1$ -c $ARG2$
+-#command[check_load]=@pluginsdir@/check_load -w $ARG1$ -c $ARG2$
+-#command[check_disk]=@pluginsdir@/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
+-#command[check_procs]=@pluginsdir@/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
 +# NOTE:
 +# In PLD Linux, command definitions are in file /etc/nagios/nrpe.d/commands.cfg

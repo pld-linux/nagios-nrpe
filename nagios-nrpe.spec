@@ -1,19 +1,18 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	2.15
-Release:	7
+Version:	3.0
+Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
-# Source0-md5:	3921ddc598312983f604541784b35a50
+# Source0-md5:	e2e8e0bcd9a3924b0ea94e76500f147b
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Source3:	%{name}.tmpfiles
 Source4:	commands.cfg
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
-Patch2:		CVE-2014-2913-nasty-metacharacters.patch
 URL:		http://www.nagios.org/
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
@@ -68,7 +67,6 @@ na innych komputerach za pomocą demona nrpe.
 %undos contrib/nrpe_check_control.c
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %configure \
@@ -142,7 +140,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc Changelog LEGAL README* SECURITY
+%doc Changelog LEGAL README* SECURITY.md
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
 %attr(750,root,nagios) %dir %{_sysconfdir}/nrpe.d
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.d/commands.cfg
