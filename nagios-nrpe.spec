@@ -73,6 +73,7 @@ na innych komputerach za pomocą demona nrpe.
 	--with-nrpe-port=%{nsport} \
 	--with-nrpe-user=nagios \
 	--with-nrpe-group=nagios \
+	--with-piddir=/var/run/nrpe \
 	--enable-ssl \
 	--with-ssl-lib=%{_libdir} \
 	--enable-command-args

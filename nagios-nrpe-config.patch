@@ -1,14 +1,5 @@
 --- nrpe-3.0.orig/sample-config/nrpe.cfg.in	2016-07-12 23:24:40.000000000 +0300
 +++ nrpe-3.0/sample-config/nrpe.cfg.in	2016-09-07 15:46:35.913180521 +0300
-@@ -23,7 +23,7 @@
- # number.  The file is only written if the NRPE daemon is started by the root
- # user and is running in standalone mode.
- 
--pid_file=@piddir@/nrpe.pid
-+pid_file=/var/run/nrpe/nrpe.pid
- 
- 
- 
 @@ -257,47 +257,8 @@
  # This directive allows you to include definitions from config files (with a
  # .cfg extension) in one or more directories (with recursion).
