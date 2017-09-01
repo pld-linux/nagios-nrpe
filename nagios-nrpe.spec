@@ -2,7 +2,7 @@ Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
 Version:	3.2.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
@@ -18,7 +18,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.647
 Requires(post,preun):	/sbin/chkconfig
-Requires:	nagios-common
+Requires:	nagios-common >= 4.3.3-2
 Requires:	rc-scripts >= 0.4.1.26
 Provides:	nagios-core
 Obsoletes:	netsaint-nrpe
@@ -143,7 +143,6 @@ fi
 %defattr(644,root,root,755)
 %doc CHANGELOG.md LEGAL README* SECURITY.md update-cfg.pl
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.cfg
-%attr(750,root,nagios) %dir %{_sysconfdir}/nrpe.d
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nrpe.d/commands.cfg
 %attr(755,root,root) %{_sbindir}/nrpe
 %attr(754,root,root) /etc/rc.d/init.d/nrpe
