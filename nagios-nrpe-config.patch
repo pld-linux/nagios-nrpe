@@ -1,13 +1,9 @@
---- nrpe-3.2.0/sample-config/nrpe.cfg.in~	2017-06-28 00:13:20.000000000 +0300
-+++ nrpe-3.2.0/sample-config/nrpe.cfg.in	2017-07-11 12:15:01.541380203 +0300
-@@ -281,80 +281,4 @@
- # INCLUDE CONFIG DIRECTORY
- # This directive allows you to include definitions from config files (with a
- # .cfg extension) in one or more directories (with recursion).
--
--#include_dir=<somedirectory>
--#include_dir=<someotherdirectory>
--
+--- nrpe-3.2.1/sample-config/nrpe.cfg.in~	2017-09-01 15:59:54.000000000 +0200
++++ nrpe-3.2.1/sample-config/nrpe.cfg.in	2018-09-20 14:02:57.989524019 +0200
+@@ -270,92 +270,10 @@ connection_timeout=300
+ 
+ # nasty_metachars="|`&><'\\[]{};\r\n"
+ 
 -
 -
 -# COMMAND DEFINITIONS
@@ -81,4 +77,20 @@
 -#command[check_asterisk_channels]=@pluginsdir@/nagisk.pl -c channels 
 -#command[check_asterisk_zaptel]=@pluginsdir@/nagisk.pl -c zaptel 
 -#command[check_asterisk_span]=@pluginsdir@/nagisk.pl -c span -s 1
+-
+-
+-
+-# INCLUDE CONFIG FILE
+-# This directive allows you to include definitions from an external config file.
+-
+-#include=<somefile.cfg>
+-
+-
+-
+ # INCLUDE CONFIG DIRECTORY
+ # This directive allows you to include definitions from config files (with a
+ # .cfg extension) in one or more directories (with recursion).
+ 
+ #include_dir=<somedirectory>
+ #include_dir=<someotherdirectory>
 +include_dir=/etc/nagios/nrpe.d
