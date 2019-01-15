@@ -5,7 +5,7 @@ Version:	3.2.1
 Release:	1
 License:	GPL v2
 Group:		Networking
-Source0:	http://downloads.sourceforge.net/nagios/nrpe-%{version}.tar.gz
+Source0:	https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-%{version}/nrpe-%{version}.tar.gz
 # Source0-md5:	8997e195fea93cdceb8c7ed8ac1d43bc
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
@@ -13,7 +13,7 @@ Source3:	%{name}.tmpfiles
 Source4:	commands.cfg
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
-URL:		http://www.nagios.org/
+URL:		https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	rpmbuild(macros) >= 1.647
