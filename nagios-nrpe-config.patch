@@ -1,11 +1,9 @@
---- nrpe-3.2.1/sample-config/nrpe.cfg.in~	2017-09-01 15:59:54.000000000 +0200
-+++ nrpe-3.2.1/sample-config/nrpe.cfg.in	2018-09-20 14:02:57.989524019 +0200
-@@ -270,92 +270,10 @@ connection_timeout=300
+--- nrpe-4.0.3/sample-config/nrpe.cfg.in~	2020-04-28 23:10:40.000000000 +0200
++++ nrpe-4.0.3/sample-config/nrpe.cfg.in	2021-05-10 16:07:17.744206907 +0200
+@@ -274,87 +274,6 @@ connection_timeout=300
+ # If this option is not set, the error messages will be logged.
+ disable_syslog=0
  
- # nasty_metachars="|`&><'\\[]{};\r\n"
- 
--
--
 -# COMMAND DEFINITIONS
 -# Command definitions that this daemon will run.  Definitions
 -# are in the following format:
@@ -90,7 +88,3 @@
  # INCLUDE CONFIG DIRECTORY
  # This directive allows you to include definitions from config files (with a
  # .cfg extension) in one or more directories (with recursion).
- 
- #include_dir=<somedirectory>
- #include_dir=<someotherdirectory>
-+include_dir=/etc/nagios/nrpe.d
