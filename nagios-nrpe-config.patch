@@ -1,6 +1,7 @@
---- nrpe-4.0.3/sample-config/nrpe.cfg.in~	2020-04-28 23:10:40.000000000 +0200
-+++ nrpe-4.0.3/sample-config/nrpe.cfg.in	2021-05-10 16:07:17.744206907 +0200
-@@ -274,87 +274,6 @@ connection_timeout=300
+diff -urN nrpe-4.0.3.org/sample-config/nrpe.cfg.in nrpe-4.0.3/sample-config/nrpe.cfg.in
+--- nrpe-4.0.3.org/sample-config/nrpe.cfg.in	2020-04-28 23:10:40.000000000 +0200
++++ nrpe-4.0.3/sample-config/nrpe.cfg.in	2021-06-11 11:03:15.467505455 +0200
+@@ -274,87 +274,6 @@
  # If this option is not set, the error messages will be logged.
  disable_syslog=0
  
@@ -88,3 +89,11 @@
  # INCLUDE CONFIG DIRECTORY
  # This directive allows you to include definitions from config files (with a
  # .cfg extension) in one or more directories (with recursion).
+@@ -367,3 +286,7 @@
+ # when starting the NRPE daemon. 
+ 
+ #keep_env_vars=NRPE_MULTILINESUPPORT,NRPE_PROGRAMVERSION
++
++#include_dir=<somedirectory>
++#include_dir=<someotherdirectory>
++include_dir=/etc/nagios/nrpe.d
