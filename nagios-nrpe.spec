@@ -1,19 +1,18 @@
 Summary:	Nagios remote plugin execution service/plugin
 Summary(pl.UTF-8):	Demon i wtyczka zdalnego wywoływania wtyczek Nagios
 Name:		nagios-nrpe
-Version:	4.0.3
-Release:	4
+Version:	4.1.0
+Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-%{version}/nrpe-%{version}.tar.gz
-# Source0-md5:	42252d3c721c87ebb5e38b748f187e8d
+# Source0-md5:	ace32f8d41e9b9138ea5d40b8beed274
 Source1:	nrpe.init
 Source2:	nrpe-command.cfg
 Source3:	%{name}.tmpfiles
 Source4:	commands.cfg
 Patch0:		%{name}-config.patch
 Patch1:		nrpe_check_control.patch
-Patch2:		11_reproducible_dh.h.patch
 URL:		https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
@@ -68,7 +67,6 @@ na innych komputerach za pomocą demona nrpe.
 %undos contrib/nrpe_check_control.c
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__aclocal}
